@@ -16,13 +16,11 @@ module.exports = {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
-    devFlagPlugin,
-    new ExtractTextPlugin('app.css')
+    devFlagPlugin
   ],
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!cssnext-loader') }
+      { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ }
     ]
   },
   resolve: {

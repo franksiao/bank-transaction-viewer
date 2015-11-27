@@ -6,6 +6,7 @@ var devFlagPlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
+  devtool: 'source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:4000',
     'webpack/hot/only-dev-server',
@@ -20,13 +21,11 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    devFlagPlugin,
-    new ExtractTextPlugin('app.css')
+    devFlagPlugin
   ],
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!cssnext-loader') }
+      { test: /\.js$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ }
     ]
   },
   resolve: {

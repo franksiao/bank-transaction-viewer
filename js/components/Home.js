@@ -1,22 +1,51 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as HomeActions from '../actions/HomeActions';
-import styles from '../../css/app.css';
+import * as BankActions from '../actions/BankActions';
+import BalanceCard from './BalanceCard';
+import AddTransactionCard from './AddTransactionCard';
+import TransactionTable from './TransactionTable';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 class Home extends Component {
   render() {
-    const {title, dispatch} = this.props;
-    const actions = bindActionCreators(HomeActions, dispatch);
+    const {actions, balance, transactions} = this.props;
     return (
       <main>
-        <h1 className={styles.text}>Welcome {title}!</h1>
-        <button onClick={e => actions.changeTitle(prompt())}>
-          Update Title
-        </button>
+        <div className="ui two column grid">
+          <div className="column">
+            <BalanceCard balance={balance}/>
+            <AddTransactionCard addTransaction={actions.addTransaction}/>
+          </div>
+          <div className="column">
+            <TransactionTable transactions={transactions}/>
+          </div>
+        </div>
       </main>
     );
   }
 }
 
-export default connect(state => state.Sample)(Home)
+function mapStateToProps(state) {
+  const transactions = state.BankReducers.transactions;
+  const total = transactions.reduce((prev, curr) => {
+    return prev + curr.amount;
+  }, 0);
+  return {
+    balance: total,
+    transactions: transactions
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(BankActions, dispatch)
+  };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Home);

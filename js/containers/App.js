@@ -7,6 +7,21 @@ import {renderDevTools} from '../utils/devTools';
 const store = configureStore();
 
 export default React.createClass({
+  getInitialState() {
+    return {
+      displayDevTools: true
+    };
+  },
+  componentDidMount() {
+    document.onkeydown = this.toggleDevTools;
+  },
+  toggleDevTools(event) {
+    if (event.keyCode === 68) {
+      this.setState({
+        displayDevTools: !this.state.displayDevTools
+      });
+    }
+  },
   render() {
     return (
       <div>
@@ -17,7 +32,7 @@ export default React.createClass({
         </Provider>
 
         {/* only renders when running in DEV mode */
-          renderDevTools(store)
+          this.state.displayDevTools ? renderDevTools(store) : ''
         }
       </div>
     );

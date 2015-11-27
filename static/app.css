@@ -1,0 +1,6 @@
+#AddTransactionCard, #BalanceCard{
+	width: 350px;
+}
+main {
+	max-width: 800px;
+}
